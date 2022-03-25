@@ -2,17 +2,19 @@ import { mount } from "@vue/test-utils";
 import TodoApp from "@/components/TodoApp";
 
 describe("TodoApp", () => {
-  it("should render todo text", () => {
-    const wrapper = mount(TodoApp);
+  let wrapper;
 
+  beforeEach(() => {
+    wrapper = mount(TodoApp);
+  });
+
+  it("should render todo text", () => {
     const todo = wrapper.get('[data-test="todo"]');
 
     expect(todo.text()).toBe("Learn Vue Test");
   });
 
   it("should add new todo", async () => {
-    const wrapper = mount(TodoApp);
-
     expect(wrapper.findAll('[data-test="todo"]')).toHaveLength(1);
 
     await wrapper.get('[data-test="new-todo"]').setValue("New Todo");
@@ -24,8 +26,6 @@ describe("TodoApp", () => {
   });
 
   it("should be able to complete todo", async () => {
-    const wrapper = mount(TodoApp);
-
     await wrapper.get('[data-test="todo-checkbox"]').setValue(true);
 
     expect(wrapper.get('[data-test="todo"]').classes()).toContain("completed");
